@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 '''
-File: gh-status.py
+File: gh_status.py
 Author: Carno <carnophage at dobramama dot pl>
-Description: Simple command line snippet to check github status
+Description: Simple command line snippet to check github status page
 '''
 
 from __future__ import print_function
@@ -14,7 +14,7 @@ import json
 try:
     import requests
 except ImportError:
-    print('Needed module: requests not available! Please install it and try again')
+    print('Missing module: requests.')
     sys.exit(3)
 
 if __name__ == '__main__':
