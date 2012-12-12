@@ -21,7 +21,7 @@ GH_STATUS_API = 'https://status.github.com/api.json'
 class GhStatus(object):
     """Methods for getting current GitHub status"""
     def __init__(self):
-        api_request = requests.get(GH_STATUS_API)
+        api_request = requests.get(GH_STATUS_API) # FIXME: exceptions!
         try:
             api_request.raise_for_status()
         except (requests.ConnectionError, requests.HTTPError, requests.Timeout,
