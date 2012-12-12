@@ -21,12 +21,12 @@ GH_STATUS_API = 'https://status.github.com/api.json'
 class GhStatus(object):
     """Methods for getting current GitHub status"""
     def __init__(self):
-        api_request = requests.get(GH_STATUS_API) # FIXME: exceptions!
         try:
+            api_request = requests.get(GH_STATUS_API)
             api_request.raise_for_status()
         except (requests.ConnectionError, requests.HTTPError, requests.Timeout,
                 requests.TooManyRedirects) as err:
-            print("Failed to get github status api [{0}]: {1}".format(err.errno,
+            print("Failed to get github:status api [{0}]: {1}".format(err.errno,
                 err.strerror))
             sys.exit(2)
         self.gh_api = api_request.json
@@ -39,7 +39,11 @@ class GhStatus(object):
 
     def get_status(self):
         """Get current github status"""
-        status_request = requests.get(self.gh_api['status_url'])
+        try:
+            status_request = requests.get(self.gh_api['status_url'])
+        except:
+            print('Failed to get status_url json')
+            sys.exit(2)
         if not status_request.json:
             print('Failed to decode status json')
             sys.exit(2)
@@ -48,7 +52,11 @@ class GhStatus(object):
 
     def get_last_msg(self):
         """Get last message from GitHub status page"""
-        last_msg_request = requests.get(self.gh_api['last_message_url'])
+        try:
+            last_msg_request = requests.get(self.gh_api['last_message_url'])
+        except:
+            print('Failed to get last_message_url json')
+            sys.exit(2)
         last_msg = last_msg_request.json
         if not last_msg:
             print('Failed to decode last message json')
@@ -57,6 +65,7 @@ class GhStatus(object):
         self.gh_last_msg = last_msg['body']
         self.gh_last_msg_time = last_msg['created_on']
         return (self.gh_status, self.gh_last_msg, self.gh_last_msg_time)
+
 
 def _main():
     """Dummy main function"""
