@@ -63,10 +63,11 @@ def _main():
     gh_status = GhStatus()
     current_status = gh_status.get_status()
     if current_status != 'good':
-        print("GitHub has {0} issues :(\nLast update: {1} @{2}".format(gh_status.get_last_msg()))
+        # TODO: display the time in a more sane format
+        print("GitHub has {0} issues 8^(\nLast update@{2}: {1}".format(gh_status.get_last_msg()))
         sys.exit(1)
     else:
-        print('GitHub is good :)')
+        print('GitHub is good 8^)')
         sys.exit(0)
 
 if __name__ == '__main__':
