@@ -24,10 +24,8 @@ class GhStatus(object):
         try:
             api_request = requests.get(GH_STATUS_API)
             api_request.raise_for_status()
-        except (requests.ConnectionError, requests.HTTPError, requests.Timeout,
-                requests.TooManyRedirects) as err:
-            print("Failed to get github:status api [{0}]: {1}".format(err.errno,
-                err.strerror))
+        except requests.exceptions.RequestException:
+            print('Failed to get github:status api')
             sys.exit(2)
         self.gh_api = api_request.json
         if not self.gh_api:
@@ -41,7 +39,7 @@ class GhStatus(object):
         """Get current github status"""
         try:
             status_request = requests.get(self.gh_api['status_url'])
-        except:
+        except requests.exceptions.RequestException:
             print('Failed to get status_url json')
             sys.exit(2)
         if not status_request.json:
@@ -54,7 +52,7 @@ class GhStatus(object):
         """Get last message from GitHub status page"""
         try:
             last_msg_request = requests.get(self.gh_api['last_message_url'])
-        except:
+        except requests.exceptions.RequestException:
             print('Failed to get last_message_url json')
             sys.exit(2)
         last_msg = last_msg_request.json
