@@ -9,6 +9,7 @@ Description: Simple command line snippet to check GitHub status page
 from __future__ import print_function
 
 import sys
+import simplejson
 
 try:
     import requests
@@ -27,9 +28,10 @@ class GhStatus(object):
         except requests.exceptions.RequestException:
             print('Failed to get github:status api')
             sys.exit(2)
-        self.gh_api = api_request.json()
-        if not self.gh_api:
-            print('Failed to decoded GitHub api json')
+        try:
+            self.gh_api = api_request.json()
+        except simplejson.JSONDecodeError:
+            print('Failed to decode Github api json')
             sys.exit(2)
         self.gh_status = ''
         self.gh_last_msg = ''
@@ -42,10 +44,11 @@ class GhStatus(object):
         except requests.exceptions.RequestException:
             print('Failed to get status_url json')
             sys.exit(2)
-        if not status_request.json():
+        try:
+            self.gh_status = status_request.json()['status']
+        except simplejson.JSONDecodeError:
             print('Failed to decode status json')
             sys.exit(2)
-        self.gh_status = status_request.json()['status']
         return self.gh_status
 
     def get_last_msg(self):
@@ -55,8 +58,9 @@ class GhStatus(object):
         except requests.exceptions.RequestException:
             print('Failed to get last_message_url json')
             sys.exit(2)
-        last_msg = last_msg_request.json()
-        if not last_msg:
+        try:
+            last_msg = last_msg_request.json()
+        except simplejson.JSONDecodeError:
             print('Failed to decode last message json')
             sys.exit(2)
         self.gh_status = last_msg['status']
