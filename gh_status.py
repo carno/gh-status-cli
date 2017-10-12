@@ -2,6 +2,7 @@
 
 """Description: Simple command line snippet to check GitHub status page."""
 
+import json
 import sys
 
 try:
