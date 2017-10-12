@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-'''
-File: gh_status.py
-Author: Carno <carnophage at dobramama dot pl>
-Description: Simple command line snippet to check GitHub status page
-'''
+"""Description: Simple command line snippet to check GitHub status page."""
 
 import sys
 
@@ -16,9 +12,12 @@ except ImportError:
 
 GH_STATUS_API = 'https://status.github.com/api.json'
 
+
 class GhStatus(object):
-    """Methods for getting current GitHub status"""
+    """Methods for getting current GitHub status."""
+
     def __init__(self):
+        """Initialize defaults."""
         try:
             api_request = requests.get(GH_STATUS_API)
             api_request.raise_for_status()
@@ -35,7 +34,7 @@ class GhStatus(object):
         self.gh_last_msg_time = ''
 
     def get_status(self):
-        """Get current github status"""
+        """Get current github status."""
         try:
             status_request = requests.get(self.gh_api['status_url'])
         except requests.exceptions.RequestException:
@@ -49,7 +48,7 @@ class GhStatus(object):
         return self.gh_status
 
     def get_last_msg(self):
-        """Get last message from GitHub status page"""
+        """Get last message from GitHub status page."""
         try:
             last_msg_request = requests.get(self.gh_api['last_message_url'])
         except requests.exceptions.RequestException:
@@ -67,7 +66,7 @@ class GhStatus(object):
 
 
 def _main():
-    """Dummy main function"""
+    """Perform current status check."""
     gh_status = GhStatus()
     current_status = gh_status.get_status()
     if current_status != 'good':
@@ -77,6 +76,7 @@ def _main():
     else:
         print('GitHub is good 8^)')
         sys.exit(0)
+
 
 if __name__ == '__main__':
     _main()
