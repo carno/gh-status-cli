@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''
 File: gh_status.py
@@ -6,10 +6,7 @@ Author: Carno <carnophage at dobramama dot pl>
 Description: Simple command line snippet to check GitHub status page
 '''
 
-from __future__ import print_function
-
 import sys
-import simplejson
 
 try:
     import requests
@@ -30,7 +27,7 @@ class GhStatus(object):
             sys.exit(2)
         try:
             self.gh_api = api_request.json()
-        except simplejson.JSONDecodeError:
+        except json.JSONDecodeError:
             print('Failed to decode Github api json')
             sys.exit(2)
         self.gh_status = ''
@@ -46,7 +43,7 @@ class GhStatus(object):
             sys.exit(2)
         try:
             self.gh_status = status_request.json()['status']
-        except simplejson.JSONDecodeError:
+        except json.JSONDecodeError:
             print('Failed to decode status json')
             sys.exit(2)
         return self.gh_status
@@ -60,7 +57,7 @@ class GhStatus(object):
             sys.exit(2)
         try:
             last_msg = last_msg_request.json()
-        except simplejson.JSONDecodeError:
+        except json.JSONDecodeError:
             print('Failed to decode last message json')
             sys.exit(2)
         self.gh_status = last_msg['status']
