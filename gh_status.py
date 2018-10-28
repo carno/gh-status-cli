@@ -14,7 +14,7 @@ except ImportError:
 GH_STATUS_API = 'https://status.github.com/api.json'
 
 
-class GhStatus(object):
+class GhStatus():
     """Methods for getting current GitHub status."""
 
     def __init__(self):
